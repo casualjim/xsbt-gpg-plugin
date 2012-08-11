@@ -1,10 +1,10 @@
 import sbt._
 import Keys._
 
-import com.jsuereth.sbtsite.SitePlugin.site
-import com.jsuereth.sbtsite.SiteKeys._
-import com.jsuereth.ghpages.GhPages.ghpages
-import com.jsuereth.git.GitPlugin.git
+// import com.jsuereth.sbtsite.SitePlugin.site
+// import com.jsuereth.sbtsite.SiteKeys._
+// import com.jsuereth.ghpages.GhPages.ghpages
+// import com.jsuereth.git.GitPlugin.git
 
 /** Helper object for creating Sonatype OSSRH metadata. */ 
 // TODO - Make this a plugin
@@ -81,14 +81,14 @@ object GpgBuild extends Build {
     name := "xsbt-gpg-plugin"
   ) settings(websiteSettings:_*)  settings(
     //tmp workaround
-    libraryDependencies += "net.databinder" %% "dispatch-http" % "0.8.6")
+    libraryDependencies += "net.databinder.dispatch" %% "core" % "0.9.0")
   /* settings(ScriptedPlugin.scriptedSettings:_*) */
 
   lazy val library = Project("library", file("gpg-library")) settings(defaultSettings:_*) settings(
     name := "gpg-library",
     crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.2", "2.8.1", "2.8.0"),
     libraryDependencies += "org.bouncycastle" % "bcpg-jdk16" % "1.46",
-    libraryDependencies += "net.databinder" %% "dispatch-http" % "0.8.6"
+    libraryDependencies += "net.databinder.dispatch" %% "core" % "0.9.0"
   ) settings(Sonatype.publishSettings(
       url="http://scala-sbt.org/xsbt-gpg-plugin/",
       gitUrl="git://github.com/sbt/xsbt-gpg-plugin.git",
@@ -96,14 +96,14 @@ object GpgBuild extends Build {
       developers=Seq(Sonatype.Developer("jsuereth", "Josh Suereth"))):_*)
 
 
-  def websiteSettings: Seq[Setting[_]] = (
-    site.settings ++ 
-    ghpages.settings ++ 
-    site.jekyllSupport() ++ 
-    site.includeScaladoc() ++ 
-    Seq(
-      git.remoteRepo := "git@github.com:sbt/xsbt-gpg-plugin.git",
-      site.addMappingsToSiteDir(mappings in packageDoc in Compile in library, "library/latest/api")
-    )
+  def websiteSettings: Seq[Setting[_]] = Seq[Setting[_]](
+    // site.settings ++ 
+    // ghpages.settings ++ 
+    // site.jekyllSupport() ++ 
+    // site.includeScaladoc() ++ 
+    // Seq(
+      // git.remoteRepo := "git@github.com:sbt/xsbt-gpg-plugin.git",
+      // site.addMappingsToSiteDir(mappings in packageDoc in Compile in library, "library/latest/api")
+    // )
   )
 }

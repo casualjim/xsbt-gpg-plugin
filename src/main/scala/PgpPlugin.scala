@@ -44,7 +44,9 @@ object PgpPlugin extends Plugin {
     val task = extracted get pgpCmdContext map (cmd run) named ("pgp-cmd-" + cmd.getClass.getSimpleName)
     import EvaluateTask._
     val (newstate, _) = withStreams(extracted.structure, state) { streams =>
-      runTask(task, state, streams, extracted.structure.index.triggers)(nodeView(state, streams))
+      // TODO - Use the config from somwhere else...
+      val config = EvaluateConfig(false, defaultRestrictions(1), false)
+      runTask(task, state, streams, extracted.structure.index.triggers, config)(nodeView(state, streams, Nil))
     }
     newstate
   }
