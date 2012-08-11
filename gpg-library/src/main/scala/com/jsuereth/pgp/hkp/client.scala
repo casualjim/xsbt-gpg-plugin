@@ -38,7 +38,7 @@ private[hkp] class DispatchClient(serverUrl: String) extends Client {
   
   /** Pushes a key to the given public key server. */
   def pushKeyRing(key: PublicKeyRing, logger: String => Unit): Unit =
-    Http(initiateFormPost(AddKey(key)) OK { c => logger("received: " + c) })()
+    Http(initiateFormPost(AddKey(key)) OK (as.String andThen { c => logger("received: " + c) }))()
     
   /** Searches for a term on the keyserver and returns all the results. */
   def search(term: String): Seq[LookupKeyResult] = 
